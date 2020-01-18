@@ -1,16 +1,29 @@
 import React, { Component } from 'react';
-import { View, Button, StyleSheet, TextInput, Dimensions } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+import { Button, ThemeProvider, Input } from "react-native-elements";
+import * as  Animatable from 'react-native-animatable';
 import { registerRootComponent } from "expo";
 import MongoDB from "../app_modules/MongoDB";
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import Recipe from "./Recipe";
+
+
+const animateUp = {
+    from: {
+        height: Dimensions.get("window").height / 2
+    },
+    to: {
+        height: Dimensions.get("window").height / 10
+    }
+}
+
 class HealthHome extends Component {
     constructor(props) {
         super(props);
         this.state = {
             loggedIn: false,
-            calorieGoal: null
+            calorieGoal: null,
         };
     }
 
@@ -18,20 +31,39 @@ class HealthHome extends Component {
         MongoDB.loadClient().then(() => this.setState({ loggedIn: true }))
     }
 
-    onChangeText = text => {
-        console.log(text);
-
+    onSubmitCal = calories => {
+        this.setState({ calorieGoal: calories })
     }
 
+    InputAnim = props => {
+        <Input placeholder='Calories Goal'
+            leftIcon={{ type: 'font-awesome', name: 'chevron-right' }}
+            keyboardType="numeric"
+            containerStyle={{ alignSelf: 'flex-end', width: "80%" }}
+            onSubmitEditing={this.onSubmitCal}
+        />
+    }
+
+
     render() {
-        return (<View style={styles}>
-            <TextInput
-                style={{ margin:Dimensions.get('window').height/2,height: 40,width:Dimensions.get('window').width/2, borderColor: 'gray', borderWidth: 1,alignSelf:'center' }}
-                onChangeText={this.onChangeText}
-                onSubmitEditing={()=>this.props.navigation.navigate("Recipes")}
-                keyboardType="number-pad"
-            />
-        </View>);
+        return (
+            <ThemeProvider>
+                <Animatable.View
+                    style={{
+                        height: Dimensions.get('window').height / 2, flexDirection: "row", justifyContent: "center"
+                    }}
+
+                >
+                    <Input placeholder='Calories Goal'
+                        leftIcon={{ type: 'font-awesome', name: 'chevron-right' }}
+                        keyboardType="numeric"
+                        containerStyle={{ alignSelf: 'flex-end', width: "80%" }}
+                        onSubmitEditing={this.onSubmitCal}
+                    />
+                </Animatable.View>
+
+            </ThemeProvider>
+        );
     }
 }
 
