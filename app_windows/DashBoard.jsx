@@ -140,7 +140,7 @@ const Panel = ({ panelCB, navigation }) => {
                     <Button title="Suggestions" onPress={() => navigation.navigate('Recipes', {
                         mongodb: navigation.getParam('mongodb', null),
                         calorieGoal: navigation.getParam('calorieGoal', 0)
-                    })} buttonStyle={{ height: "30%", marginTop: "3%", borderRightWidth: 0, borderleftWidth: 0, borderRadius: 0, borderTopWidth: 2, borderBottomWidth: 2 }} type="outline" />
+                    })} buttonStyle={{ height: "30%", marginTop: "3%", borderRightWidth: 0, borderRadius: 0, borderTopWidth: 2, borderBottomWidth: 2 }} type="outline" />
                 </View>
             </View>
         </Animatable.View >)

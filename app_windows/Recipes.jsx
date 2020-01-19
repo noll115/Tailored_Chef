@@ -31,9 +31,6 @@ class Recipes extends Component {
         this.state.mongodb.quieryForLTCals(this.state.maxCalories)
             .then(recipes => {
                 let recipeNodes = recipes.map((recipe, i) => <Recipe state="fadeIn" onPress={this.onPress} recipe={recipe} delay={i * 250} key={i} />)
-                let rec = recipes.map((recipe, i) => <Recipe state="fadeIn" onPress={this.onPress} recipe={recipe} delay={i * 250} key={(recipe._id)} />);
-                let recs = recipes.map((recipe, i) => <Recipe state="fadeIn" onPress={this.onPress} recipe={recipe} delay={i * 250} key={(recipe._id + "s")} />);
-                recipeNodes = rec.concat(recipeNodes).concat(recs)
                 this.setState({ recipes, recipeNodes })
             })
     }
