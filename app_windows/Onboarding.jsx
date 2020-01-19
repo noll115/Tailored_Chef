@@ -197,7 +197,7 @@ class CuisinePreferences extends Component {
      render() {
           return (
                <View style={styles.container}>
-                    <Text style={styles.heading}>Cuisine Preferences!</Text>
+                    <Text h4 style={styles.heading}>Cuisine Preferences!</Text>
                     <Text style={styles.subtext}>short introduction</Text>
                     <View>
                          <CheckBox

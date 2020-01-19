@@ -12,7 +12,6 @@ class Recipes extends Component {
         super(props);
 
         const { navigation } = this.props;
-        console.log(navigation.getParam('calorieGoal', 0));
 
         this.state = {
             maxCalories: navigation.getParam('calorieGoal', 0),
@@ -25,8 +24,6 @@ class Recipes extends Component {
     }
 
     componentDidMount() {
-        console.log(this.state.mongodb);
-
         if (!this.state.mongodb) this.props.navigation.navigate('FirstOnboardin')
         this.state.mongodb.quieryForLTCals(this.state.maxCalories)
             .then(recipes => {
