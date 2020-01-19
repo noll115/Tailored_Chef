@@ -94,7 +94,8 @@ class GroceryItem extends Component {
         return (
             <CheckBox
                 title={this.props.name}
-                style={styles.grocery}
+                containerStyle={styles.fitnessContainer}
+                textStyle={styles.fitnessText}
                 checked={this.state.checked}
                 onPress={() => this.setState({ checked: !this.state.checked })}
             />
@@ -160,6 +161,12 @@ const styles = StyleSheet.create({
         height: 24,
         color: "#49274A",
     },
+    fitnessContainer: {
+        backgroundColor: '#94618E',
+   },
+    fitnessText: {
+        color: '#FFFFFF'
+   },
 });
 
 export default Groceries;
