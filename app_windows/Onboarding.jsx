@@ -45,7 +45,6 @@ class FitnessGoals extends Component {
 
      constructor(props) {
           super(props);
-          console.log();
 
 
           this.state = {
@@ -188,6 +187,7 @@ class CuisinePreferences extends Component {
                mediterraneanState: false
 
           };
+          this.props.navigation.getParam('calorieGoal', null)
      }
 
      render() {
@@ -290,6 +290,10 @@ class CuisinePreferences extends Component {
 }
 
 class LastOnboarding extends Component {
+     constructor(props) {
+          super(props)
+
+     }
      render() {
           return (
                <View style={styles.container}>
@@ -308,7 +312,7 @@ class LastOnboarding extends Component {
                          title="Click here to get started!"
                          onPress={() => this.props.navigation.navigate('Recipes', {
                               mongodb: this.props.navigation.getParam('mongodb', null),
-                              calorieGoal: this.props.navigation.getParam('calorieGoal', null)
+                              calorieGoal: this.props.navigation.getParam('calorieGoal', 0)
                          })}
                     />
                </View>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, BackHandler } from "react-native";
+import { View, BackHandler, ActivityIndicator } from "react-native";
 import { Button, ThemeProvider, Input, Text, Card, Divider } from "react-native-elements";
 import * as  Animatable from 'react-native-animatable';
 import Recipe from "./Recipe";
@@ -10,11 +10,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 class Recipes extends Component {
     constructor(props) {
         super(props);
-        
+
         const { navigation } = this.props;
-        console.log(navigation.getParam('mongodb', null));
         console.log(navigation.getParam('calorieGoal', 0));
-        
+
         this.state = {
             maxCalories: navigation.getParam('calorieGoal', 0),
             mongodb: navigation.getParam('mongodb', null),
@@ -27,8 +26,8 @@ class Recipes extends Component {
 
     componentDidMount() {
         console.log(this.state.mongodb);
-        
-        if(!this.state.mongodb) this.props.navigation.navigate('FirstOnboardin')
+
+        if (!this.state.mongodb) this.props.navigation.navigate('FirstOnboardin')
         this.state.mongodb.quieryForLTCals(this.state.maxCalories)
             .then(recipes => {
                 let recipeNodes = recipes.map((recipe, i) => <Recipe state="fadeIn" onPress={this.onPress} recipe={recipe} delay={i * 250} key={i} />)
@@ -77,8 +76,6 @@ class Recipes extends Component {
     }
 
     addToList = () => {
-        console.log("pressed");
-
         this.setState({ transition: false, recipeNodes: [] });
     }
 
@@ -106,7 +103,7 @@ class Recipes extends Component {
             <Animatable.View useNativeDriver animation={this.scaleFade} style={{ flex: 1, alignItems: 'center' }}>
                 <RecipeDetailed recipe={this.state.selectedRecipe} btnPressed={this.addToList} />
             </Animatable.View>
-
+        if (!this.state.recipes) return <ActivityIndicator />
         return (
             <ThemeProvider>
                 {this.state.transition ? detailedRecipe : recipesPanel}
