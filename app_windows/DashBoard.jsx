@@ -1,10 +1,9 @@
 
 import React, { Component } from 'react';
-import { View, BackHandler, ActivityIndicator } from "react-native";
+import { View, BackHandler, ActivityIndicator, Dimensions } from "react-native";
 import { Header, Icon, Text, Button, ListItem } from "react-native-elements";
 import * as  Animatable from 'react-native-animatable';
-import Recipe from "./Recipe";
-import RecipeDetailed from "./RecipeDetailed";
+import Recipe from "./Recipes";
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -72,25 +71,35 @@ class DashBoard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            days: { ...data }
+            days: { ...data },
+            showPanel: false
         };
+    }
+    panelShow = () => {
+        this.setState({ showPanel: true });
+    }
+
+    panelClose = () => {
+        this.setState({ showPanel: false });
     }
 
     render() {
-        let chiefTitle = <Text h2Style={{ fontWeight: "normal" }} h2>Tailord Chief</Text>;
-
+        let chiefTitle = <Text h2Style={{ fontWeight: "normal" }} h2>Tailord Chef</Text>;
+        let { showPanel } = this.state;
         let dayFoodSummary = [];
+        let i = 1;
+
         for (const day in this.state.days) {
             const daySuggestion = this.state.days[day];
 
-            dayFoodSummary.push(<DayFoodSuggestions daySuggestion={daySuggestion} date={day} key={day} />);
+            dayFoodSummary.push(<DayFoodSuggestions daySuggestion={daySuggestion} date={day} key={day} delay={i * 250} />);
+            i++;
         }
 
         return (
             <View style={{ backgroundColor: '#f8EEE7', width: "100%", height: "100%" }}>
                 <View style={{ flex: 1.3 }}>
-                    <Header leftComponent={{ icon: 'menu' }}
-                        leftContainerStyle={{ left: "10%" }}
+                    <Header leftComponent={<Icon name="menu" onPress={this.panelShow} underlayColor="#F4DECB" iconStyle={{ padding: 20 }} />}
                         containerStyle={{ flex: 1.8, backgroundColor: "#F8EEE7" }}
                         placement="center"
                         centerComponent={{ text: chiefTitle }} />
@@ -109,11 +118,33 @@ class DashBoard extends Component {
                         </SafeAreaView>
                     </View>
                 </Animatable.View>
+                {this.state.showPanel ? <Panel panelCB={this.panelClose} navigation={this.props.navigation} /> : null}
+
             </View >
+
         );
     }
 }
 
+const Panel = ({ panelCB, navigation }) => {
+
+
+
+    return (
+        <Animatable.View useNativeDriver duration={500} animation="fadeInLeftBig" style={{ backgroundColor: "#f8EEE7", zIndex: 1, width: "50%", height: "100%", position: "absolute", translateX: -Dimensions.get("window").width / 2 }} >
+            <View style={{ flex: 1, flexDirection: "column", width: "100%", height: "100%" }}>
+                <View style={{ flex: 1 }} >
+                    <Icon name="menu" iconStyle={{ marginTop: "25%", marginLeft: "50%" }} onPress={panelCB} />
+                </View>
+                <View style={{ flex: 6, backgroundColor: 'white' }}>
+                    <Button title="Suggestions" onPress={() => navigation.navigate('Recipes', {
+                        mongodb: navigation.getParam('mongodb', null),
+                        calorieGoal: navigation.getParam('calorieGoal', 0)
+                    })} buttonStyle={{ height: "30%", marginTop: "3%", borderRightWidth: 0, borderleftWidth: 0, borderRadius: 0, borderTopWidth: 2, borderBottomWidth: 2 }} type="outline" />
+                </View>
+            </View>
+        </Animatable.View >)
+}
 
 
 class DayFoodSuggestions extends Component {
@@ -141,12 +172,14 @@ class DayFoodSuggestions extends Component {
 
     render() {
         return (
-            <View style={{ marginBottom: "10%" }}>
-                <View style={{ borderBottomWidth: 1 }}>
-                    <Text suppressHighlighting style={{ marginLeft: "4%", fontSize: 15 }}>{this.props.date}</Text>
+            <Animatable.View animation="fadeInUp" delay={this.props.delay} useNativeDriver>
+                <View style={{ marginBottom: "10%" }}>
+                    <View style={{ borderBottomWidth: 1 }}>
+                        <Text suppressHighlighting style={{ marginLeft: "4%", fontSize: 15 }}>{this.props.date}</Text>
+                    </View>
+                    {this.state.foodForDay}
                 </View>
-                {this.state.foodForDay}
-            </View>
+            </Animatable.View>
         );
     }
 }
@@ -155,7 +188,7 @@ class DayFoodSuggestions extends Component {
 const FoodSlot = ({ foodData, timeSlot }) => {
     return (
         <ListItem
-            containerStyle={{ backgroundColor:"#F8EEE7"}}
+            containerStyle={{ backgroundColor: "#F8EEE7" }}
             subtitle={foodData.general}
             leftAvatar={{
                 source: { uri: foodData.image },
