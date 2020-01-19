@@ -195,9 +195,6 @@ class CuisinePreferences extends Component {
                                    });
                               }}
                          />
-                         <Text>
-                              {this.state.cuisinePreferences}
-                         </Text>
                          <CheckBox
                               center
                               title='American'
@@ -300,7 +297,7 @@ const OnboardingStack = createStackNavigator({
      LastOnboarding: LastOnboarding,
      Dashboard: HealthHome
 }, {
-     initialRouteName: 'LastOnboarding',
+     initialRouteName: 'FirstOnboarding',
      defaultNavigationOptions: { headerShown: false }
 });
 
