@@ -1,6 +1,6 @@
 {
   "expo": {
-    "entryPoint":"./app_windows/HealthHome.jsx",
+    "entryPoint":"./app_windows/Onboarding.jsx",
     "name": "cruzhacks2020",
     "slug": "cruzhacks2020",
     "privacy": "public",

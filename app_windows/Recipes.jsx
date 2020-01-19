@@ -10,9 +10,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 class Recipes extends Component {
     constructor(props) {
         super(props);
+        
+        const { navigation } = this.props;
+        console.log(navigation.getParam('mongodb', null));
+        console.log(navigation.getParam('calorieGoal', 0));
+        
         this.state = {
-            maxCalories: this.props.calories,
-            mongodb: this.props.mongo,
+            maxCalories: navigation.getParam('calorieGoal', 0),
+            mongodb: navigation.getParam('mongodb', null),
             recipes: [],
             recipeNodes: [],
             selectedRecipe: null,
@@ -21,6 +26,9 @@ class Recipes extends Component {
     }
 
     componentDidMount() {
+        console.log(this.state.mongodb);
+        
+        if(!this.state.mongodb) this.props.navigation.navigate('FirstOnboardin')
         this.state.mongodb.quieryForLTCals(this.state.maxCalories)
             .then(recipes => {
                 let recipeNodes = recipes.map((recipe, i) => <Recipe state="fadeIn" onPress={this.onPress} recipe={recipe} delay={i * 250} key={i} />)

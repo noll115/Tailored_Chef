@@ -3,12 +3,16 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { registerRootComponent } from 'expo';
-import { CheckBox, Image } from 'react-native-elements' ;
-
-import HealthHome from './HealthHome';
+import { CheckBox, Image } from 'react-native-elements';
+import MongoDB from "../app_modules/MongoDB"
+import Recipes from "./Recipes";
 
 class FirstOnboarding extends Component {
+     state = {
+          isloggedIn: false
+     }
      render() {
+          if (!MongoDB.isLoggedIn()) return null;
           return (
                <View style={styles.container}>
                     <Text style={styles.heading}>WELCOME</Text>
@@ -25,10 +29,15 @@ class FirstOnboarding extends Component {
                               color: "white"
                          }}
                          title="Submit"
-                         onPress={() => this.props.navigation.navigate('FitnessGoals')}
+                         onPress={() => this.props.navigation.navigate('FitnessGoals', {
+                              mongodb: MongoDB
+                         })}
                     />
                </View>
           )
+     }
+     componentDidMount() {
+          MongoDB.loadClient().then(() => this.setState({ isloggedIn: true }));
      }
 }
 
@@ -36,6 +45,9 @@ class FitnessGoals extends Component {
 
      constructor(props) {
           super(props);
+          console.log();
+
+
           this.state = {
                loggedIn: false,
                calorieGoal: null,
@@ -69,7 +81,8 @@ class FitnessGoals extends Component {
                               enduranceState: false,
                               dietState: false,
 
-                              calorieGoal: 3000})}
+                              calorieGoal: 3000
+                         })}
                     />
                     <CheckBox
                          center
@@ -150,7 +163,10 @@ class FitnessGoals extends Component {
                               color: "white"
                          }}
                          title="Submit"
-                         onPress={() => this.props.navigation.navigate('CuisinePreferences')}
+                         onPress={() => this.props.navigation.navigate('CuisinePreferences', {
+                              calorieGoal: this.state.calorieGoal,
+                              mongodb: this.props.navigation.getParam('mongodb', null)
+                         })}
                     />
                </View>
           )
@@ -191,8 +207,9 @@ class CuisinePreferences extends Component {
                                         if (!this.state.cuisinePreferences.includes('ASN'))
                                              this.state.cuisinePreferences.push('ASN')
                                    } else
-                                        this.state.cuisinePreferences = this.state.cuisinePreferences.filter((element) => { return element != 'ASN'
-                                   });
+                                        this.state.cuisinePreferences = this.state.cuisinePreferences.filter((element) => {
+                                             return element != 'ASN'
+                                        });
                               }}
                          />
                          <CheckBox
@@ -206,7 +223,7 @@ class CuisinePreferences extends Component {
                                         if (!this.state.cuisinePreferences.includes('AMRN'))
                                              this.state.cuisinePreferences.push('AMRN')
                                    } else
-                                        this.state.cuisinePreferences = this.state.cuisinePreferences.filter((element) => { return element != 'AMRN'});
+                                        this.state.cuisinePreferences = this.state.cuisinePreferences.filter((element) => { return element != 'AMRN' });
                               }}
                          />
                          <CheckBox
@@ -220,7 +237,7 @@ class CuisinePreferences extends Component {
                                         if (!this.state.cuisinePreferences.includes('STHRN'))
                                              this.state.cuisinePreferences.push('STHRN')
                                    } else
-                                        this.state.cuisinePreferences = this.state.cuisinePreferences.filter((element) => { return element != 'STHRN'});
+                                        this.state.cuisinePreferences = this.state.cuisinePreferences.filter((element) => { return element != 'STHRN' });
                               }}
                          />
                          <CheckBox
@@ -235,21 +252,23 @@ class CuisinePreferences extends Component {
                                              this.state.cuisinePreferences.push('HISP')
                                    } else
                                         this.state.cuisinePreferences = this.state.cuisinePreferences.filter((element) => { return element != 'HISP' });
-                                   }}
+                              }}
                          />
                          <CheckBox
                               center
                               title='Mediterranean'
                               checkedColor='green'
                               checked={this.state.mediterraneanState}
-                              onPress={() => {this.setState({
-                                   mediterraneanState: !this.state.mediterraneanState });
+                              onPress={() => {
+                                   this.setState({
+                                        mediterraneanState: !this.state.mediterraneanState
+                                   });
                                    if (!this.state.mediterraneanState) {
                                         if (!this.state.cuisinePreferences.includes('MTRN'))
                                              this.state.cuisinePreferences.push('MTRN')
                                    } else
-                                        this.state.cuisinePreferences = this.state.cuisinePreferences.filter((element) => { return element != 'MTRN'});
-                                   }}
+                                        this.state.cuisinePreferences = this.state.cuisinePreferences.filter((element) => { return element != 'MTRN' });
+                              }}
                          />
                     </View>
                     <Button
@@ -259,7 +278,11 @@ class CuisinePreferences extends Component {
                               color: "white"
                          }}
                          title="Submit"
-                         onPress={() => this.props.navigation.navigate('LastOnboarding')}
+                         onPress={() => this.props.navigation.navigate('LastOnboarding', {
+                              mongodb: this.props.navigation.getParam('mongodb', null),
+                              calorieGoal: this.props.navigation.getParam('calorieGoal', null)
+
+                         })}
                     />
                </View>
           )
@@ -283,7 +306,10 @@ class LastOnboarding extends Component {
                               color: "white"
                          }}
                          title="Click here to get started!"
-                         onPress={() => this.props.navigation.navigate('Dashboard')}
+                         onPress={() => this.props.navigation.navigate('Recipes', {
+                              mongodb: this.props.navigation.getParam('mongodb', null),
+                              calorieGoal: this.props.navigation.getParam('calorieGoal', null)
+                         })}
                     />
                </View>
           )
@@ -295,7 +321,7 @@ const OnboardingStack = createStackNavigator({
      FitnessGoals: FitnessGoals,
      CuisinePreferences: CuisinePreferences,
      LastOnboarding: LastOnboarding,
-     Dashboard: HealthHome
+     Recipes: Recipes
 }, {
      initialRouteName: 'FirstOnboarding',
      defaultNavigationOptions: { headerShown: false }
@@ -321,7 +347,7 @@ const styles = StyleSheet.create({
      },
      menuImages: {
           width: 150,
-          height:150,
+          height: 150,
      },
      menuImagesSelected: {
           borderWidth: 5
