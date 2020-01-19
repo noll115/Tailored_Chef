@@ -34,7 +34,7 @@ class FirstOnboarding extends Component {
                     <Text style={styles.subtext}>better introduction</Text>
                     <Button
                          icon={{
-                              name: "arrow-right",
+                              // name: "arrow-right",
                               size: 15,
                               color: "white"
                          }}
@@ -103,7 +103,7 @@ class FitnessGoals extends Component {
                          containerStyle={styles.fitnessContainer}
                          textStyle={styles.fitnessText}
                          checkedIcon='check-circle'
-                         uncheckedIcon='fist-raised'
+                         // uncheckedIcon='fist-raised'
                          checkedColor='#FFF'
                          uncheckedColor="#FFF"
                          checked={this.state.weightState}
@@ -125,7 +125,7 @@ class FitnessGoals extends Component {
                          containerStyle={styles.fitnessContainer}
                          textStyle={styles.fitnessText}
                          checkedIcon='check-circle'
-                         uncheckedIcon='running'
+                         // uncheckedIcon='running'
                          checkedColor='#FFF'
                          uncheckedColor="#FFF"
                          checked={this.state.enduranceState}
@@ -277,7 +277,7 @@ class CuisinePreferences extends Component {
                     </View>
                     <Button
                          icon={{
-                              name: "arrow-right",
+                              // name: "arrow-right",
                               size: 15,
                               color: "white"
                          }}
@@ -309,7 +309,7 @@ class LastOnboarding extends Component {
                     />
                     <Button
                          icon={{
-                              name: "arrow-right",
+                              // name: "arrow-right",
                               size: 15,
                               color: "white"
                          }}
@@ -332,7 +332,7 @@ const OnboardingStack = createStackNavigator({
      Recipes: Recipes,
      Dash: DashBoard
 }, {
-     initialRouteName: 'FitnessGoals',
+     initialRouteName: 'init',
      defaultNavigationOptions: { headerShown: false }
 });
 
