@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { registerRootComponent } from 'expo';
-import { CheckBox, Image } from 'react-native-elements';
+import { Text, CheckBox, Image, Button } from 'react-native-elements';
 import MongoDB from "../app_modules/MongoDB"
 import Recipes from "./Recipes";
 import DashBoard from './DashBoard';
+
+class fitnessButton extends Component {
+     render() {
+          <View styles={styles.fitnessText}>
+               <Text styles={styles.fitnessHeading}>apples</Text>
+               <Text styles={styles.fitnessSubheading}>bananas</Text>
+          </View>
+     }
+}
 
 class FirstOnboarding extends Component {
      state = {
@@ -29,7 +38,7 @@ class FirstOnboarding extends Component {
                               size: 15,
                               color: "white"
                          }}
-                         title="Submit"
+                         title="Next"
                          onPress={() => this.props.navigation.navigate('FitnessGoals', {
                               mongodb: MongoDB
                          })}
@@ -64,13 +73,17 @@ class FitnessGoals extends Component {
      render() {
           return (
                <View style={styles.container}>
-                    <Text style={styles.heading}>Fitness Goals!</Text>
-                    <Text style={styles.subtext}>short introduction</Text>
+                    <Text style={styles.heading}>Fitness Goals</Text>
+                    <Text style={styles.subtext}>What is your main fitness goal?</Text>
                     <CheckBox
                          center
-                         title='Build Muscle'
-                         checkedIcon='dot-circle-o'
-                         uncheckedIcon='circle-o'
+                         title='General'
+                         containerStyle={styles.fitnessContainer}
+                         textStyle={styles.fitnessText}
+                         checkedIcon='check-circle'
+                         uncheckedIcon='universal-access'
+                         checkedColor='#FFF'
+                         uncheckedColor="#FFF"
                          checked={this.state.buildState}
                          onPress={() => this.setState({
                               checked: true,
@@ -86,9 +99,13 @@ class FitnessGoals extends Component {
                     />
                     <CheckBox
                          center
-                         title='Lose Weight'
-                         checkedIcon='dot-circle-o'
-                         uncheckedIcon='circle-o'
+                         title='Body building'
+                         containerStyle={styles.fitnessContainer}
+                         textStyle={styles.fitnessText}
+                         checkedIcon='check-circle'
+                         uncheckedIcon='fist-raised'
+                         checkedColor='#FFF'
+                         uncheckedColor="#FFF"
                          checked={this.state.weightState}
                          onPress={() => this.setState({
                               checked: true,
@@ -104,27 +121,13 @@ class FitnessGoals extends Component {
                     />
                     <CheckBox
                          center
-                         title='Improve Mental Health'
-                         checkedIcon='dot-circle-o'
-                         uncheckedIcon='circle-o'
-                         checked={this.state.healthState}
-                         onPress={() => this.setState({
-                              checked: true,
-
-                              healthState: true,
-                              buildState: false,
-                              weightState: false,
-                              enduranceState: false,
-                              dietState: false,
-
-                              calorieGoal: 2000
-                         })}
-                    />
-                    <CheckBox
-                         center
-                         title='Improve Physical Endurance'
-                         checkedIcon='dot-circle-o'
-                         uncheckedIcon='circle-o'
+                         title='Fuel'
+                         containerStyle={styles.fitnessContainer}
+                         textStyle={styles.fitnessText}
+                         checkedIcon='check-circle'
+                         uncheckedIcon='running'
+                         checkedColor='#FFF'
+                         uncheckedColor="#FFF"
                          checked={this.state.enduranceState}
                          onPress={() => this.setState({
                               checked: true,
@@ -140,9 +143,13 @@ class FitnessGoals extends Component {
                     />
                     <CheckBox
                          center
-                         title='Achieve a Well-Balanced Diet'
-                         checkedIcon='dot-circle-o'
-                         uncheckedIcon='circle-o'
+                         title='Weight loss'
+                         containerStyle={styles.fitnessContainer}
+                         textStyle={styles.fitnessText}
+                         checkedIcon='check-circle'
+                         uncheckedIcon='heartbeat'
+                         checkedColor='#FFF'
+                         uncheckedColor="#FFF"
                          checked={this.state.dietState}
                          onPress={() => this.setState({
                               checked: true,
@@ -157,13 +164,9 @@ class FitnessGoals extends Component {
                          })}
                     />
                     <Button
-                         icon={{
-                              name: "arrow-right",
-                              size: 15,
-                              color: "white"
-                         }}
                          disabled={this.state.checked ? undefined : true}
-                         title="Submit"
+                         title="Next"
+                         buttonStyle={styles.nextButton}
                          onPress={() => this.props.navigation.navigate('CuisinePreferences', {
                               calorieGoal: this.state.calorieGoal,
                               mongodb: this.props.navigation.getParam('mongodb', null)
@@ -329,7 +332,7 @@ const OnboardingStack = createStackNavigator({
      Recipes: Recipes,
      Dash: DashBoard
 }, {
-     initialRouteName: 'init',
+     initialRouteName: 'FitnessGoals',
      defaultNavigationOptions: { headerShown: false }
 });
 
@@ -338,14 +341,28 @@ const styles = StyleSheet.create({
           display: 'flex',
           flexDirection: 'column',
           flex: 1,
-          backgroundColor: '#fff',
+          backgroundColor: '#F8EEE7',
           alignItems: 'center',
-          justifyContent: 'center',
+     },
+     fitnessContainer: {
+          backgroundColor: '#94618E',
+     },
+     fitnessText: {
+          color: '#FFFFFF'
      },
      heading: {
-          fontSize: 24,
-          fontWeight: 'bold',
-          marginTop: 15
+          fontSize: 45,
+          marginTop: 50
+     },
+     subtext: {
+          marginBottom: 28,
+          fontSize: 16
+     },
+     nextButton: {
+          marginTop: 25,
+          marginBottom: 42,
+          width: 160,
+          backgroundColor: '#94618E'
      },
      image: {
           width: 200,
