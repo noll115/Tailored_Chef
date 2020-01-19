@@ -6,24 +6,14 @@ import { registerRootComponent } from "expo";
 import MongoDB from "../app_modules/MongoDB";
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import Recipe from "./Recipe";
+import Recipes from "./Recipes";
 
-
-const animateUp = {
-    from: {
-        height: Dimensions.get("window").height / 2
-    },
-    to: {
-        height: Dimensions.get("window").height / 10
-    }
-}
 
 class HealthHome extends Component {
     constructor(props) {
         super(props);
         this.state = {
             loggedIn: false,
-            calorieGoal: null,
         };
     }
 
@@ -31,37 +21,12 @@ class HealthHome extends Component {
         MongoDB.loadClient().then(() => this.setState({ loggedIn: true }))
     }
 
-    onSubmitCal = calories => {
-        this.setState({ calorieGoal: calories })
-    }
-
-    InputAnim = props => {
-        <Input placeholder='Calories Goal'
-            leftIcon={{ type: 'font-awesome', name: 'chevron-right' }}
-            keyboardType="numeric"
-            containerStyle={{ alignSelf: 'flex-end', width: "80%" }}
-            onSubmitEditing={this.onSubmitCal}
-        />
-    }
 
 
     render() {
         return (
             <ThemeProvider>
-                <Animatable.View
-                    style={{
-                        height: Dimensions.get('window').height / 2, flexDirection: "row", justifyContent: "center"
-                    }}
-
-                >
-                    <Input placeholder='Calories Goal'
-                        leftIcon={{ type: 'font-awesome', name: 'chevron-right' }}
-                        keyboardType="numeric"
-                        containerStyle={{ alignSelf: 'flex-end', width: "80%" }}
-                        onSubmitEditing={this.onSubmitCal}
-                    />
-                </Animatable.View>
-
+                {this.state.loggedIn ? <Recipes calories={700} mongo={MongoDB} /> : <Button />}
             </ThemeProvider>
         );
     }
@@ -79,7 +44,6 @@ const styles = StyleSheet.create({
 
 const MainNavigator = createStackNavigator({
     Home: HealthHome,
-    Recipe: Recipe
 }, {
     initialRouteName: 'Home',
     defaultNavigationOptions: { headerShown: false }
