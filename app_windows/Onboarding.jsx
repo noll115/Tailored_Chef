@@ -311,7 +311,7 @@ class LastOnboarding extends Component {
                               color: "white"
                          }}
                          title="Click here to get started!"
-                         onPress={() => this.props.navigation.navigate('Recipes', {
+                         onPress={() => this.props.navigation.navigate('Dash', {
                               mongodb: this.props.navigation.getParam('mongodb', null),
                               calorieGoal: this.props.navigation.getParam('calorieGoal', 0)
                          })}
@@ -322,14 +322,14 @@ class LastOnboarding extends Component {
 }
 
 const OnboardingStack = createStackNavigator({
-     FirstOnboarding: FirstOnboarding,
+     init: FirstOnboarding,
      FitnessGoals: FitnessGoals,
      CuisinePreferences: CuisinePreferences,
      LastOnboarding: LastOnboarding,
      Recipes: Recipes,
-     Dashboard: DashBoard
+     Dash: DashBoard
 }, {
-     initialRouteName: 'Dashboard',
+     initialRouteName: 'init',
      defaultNavigationOptions: { headerShown: false }
 });
 
