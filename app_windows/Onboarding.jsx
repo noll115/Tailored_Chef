@@ -32,7 +32,7 @@ class FirstOnboarding extends Component {
                          source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg' }}
                          style={styles.image}
                     />
-                    <Text style={styles.subtext}>We just have a few quick questions to tailor your experience.</Text>
+                    <Text style={{ alignSelf: "center", fontSize: 20, textAlign: "center" }}>We just have a few quick questions to tailor your experience.</Text>
                     <Button
                          icon={{
                               // name: "arrow-right",
@@ -319,7 +319,7 @@ class LastOnboarding extends Component {
      render() {
           return (
                <View style={styles.container}>
-                    <Text style={styles.heading}>Ready to get started?</Text>
+                    <Text h1 style={{ alignSelf: "center", textAlign: "center", marginTop: 60}}>Ready to get started?</Text>
                     <Image
                          source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg' }}
                          style={styles.image}
