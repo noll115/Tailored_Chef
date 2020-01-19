@@ -6,6 +6,7 @@ import { registerRootComponent } from 'expo';
 import { CheckBox, Image } from 'react-native-elements';
 import MongoDB from "../app_modules/MongoDB"
 import Recipes from "./Recipes";
+import DashBoard from './DashBoard';
 
 class FirstOnboarding extends Component {
      state = {
@@ -72,9 +73,9 @@ class FitnessGoals extends Component {
                          uncheckedIcon='circle-o'
                          checked={this.state.buildState}
                          onPress={() => this.setState({
-                              checked: !this.state.buildState,
+                              checked: true,
 
-                              buildState: !this.state.buildState,
+                              buildState: true,
                               weightState: false,
                               healthState: false,
                               enduranceState: false,
@@ -90,9 +91,9 @@ class FitnessGoals extends Component {
                          uncheckedIcon='circle-o'
                          checked={this.state.weightState}
                          onPress={() => this.setState({
-                              checked: !this.state.weightState,
+                              checked: true,
 
-                              weightState: !this.state.weightState,
+                              weightState: true,
                               buildState: false,
                               healthState: false,
                               enduranceState: false,
@@ -108,9 +109,9 @@ class FitnessGoals extends Component {
                          uncheckedIcon='circle-o'
                          checked={this.state.healthState}
                          onPress={() => this.setState({
-                              checked: !this.state.healthState,
+                              checked: true,
 
-                              healthState: !this.state.healthState,
+                              healthState: true,
                               buildState: false,
                               weightState: false,
                               enduranceState: false,
@@ -126,9 +127,9 @@ class FitnessGoals extends Component {
                          uncheckedIcon='circle-o'
                          checked={this.state.enduranceState}
                          onPress={() => this.setState({
-                              checked: !this.state.enduranceState,
+                              checked: true,
 
-                              enduranceState: !this.state.enduranceState,
+                              enduranceState: true,
                               buildState: false,
                               weightState: false,
                               healthState: false,
@@ -144,9 +145,9 @@ class FitnessGoals extends Component {
                          uncheckedIcon='circle-o'
                          checked={this.state.dietState}
                          onPress={() => this.setState({
-                              checked: !this.state.dietState,
+                              checked: true,
 
-                              dietState: !this.state.dietState,
+                              dietState: true,
                               buildState: false,
                               weightState: false,
                               healthState: false,
@@ -161,6 +162,7 @@ class FitnessGoals extends Component {
                               size: 15,
                               color: "white"
                          }}
+                         disabled={this.state.checked ? undefined : true}
                          title="Submit"
                          onPress={() => this.props.navigation.navigate('CuisinePreferences', {
                               calorieGoal: this.state.calorieGoal,
@@ -187,7 +189,6 @@ class CuisinePreferences extends Component {
                mediterraneanState: false
 
           };
-          this.props.navigation.getParam('calorieGoal', null)
      }
 
      render() {
@@ -325,9 +326,10 @@ const OnboardingStack = createStackNavigator({
      FitnessGoals: FitnessGoals,
      CuisinePreferences: CuisinePreferences,
      LastOnboarding: LastOnboarding,
-     Recipes: Recipes
+     Recipes: Recipes,
+     Dashboard: DashBoard
 }, {
-     initialRouteName: 'FirstOnboarding',
+     initialRouteName: 'Dashboard',
      defaultNavigationOptions: { headerShown: false }
 });
 

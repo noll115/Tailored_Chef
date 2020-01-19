@@ -1,5 +1,4 @@
 import { Card, Image, ListItem, Tile, Text, Button, Icon } from "react-native-elements";
-import * as  Animatable from 'react-native-animatable';
 import React from 'react';
 
 import { View, ScrollView, Dimensions } from "react-native";
