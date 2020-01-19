@@ -82,6 +82,9 @@ class DashBoard extends Component {
     panelClose = () => {
         this.setState({ showPanel: false });
     }
+    toGroceries=()=>{
+        this.props.navigation.navigate("Groceries");
+    }
 
     render() {
         let chiefTitle = <Text h2Style={{ fontWeight: "normal" }} h2>Tailord Chef</Text>;
@@ -105,7 +108,7 @@ class DashBoard extends Component {
                         centerComponent={{ text: chiefTitle }} />
                     <View style={{ flex: 1, flexDirection: "row" }}>
                         <Animatable.Text style={{ fontSize: 20, height: "100%", width: "50%", textAlign: "center", textAlignVertical: "center" }}>Menu</Animatable.Text>
-                        <Animatable.Text style={{ fontSize: 20, height: "100%", width: "50%", textAlign: "center", textAlignVertical: "center" }}>Shopping List</Animatable.Text>
+                        <Animatable.Text style={{ fontSize: 20, height: "100%", width: "50%", textAlign: "center", textAlignVertical: "center" }} onPress={this.toGroceries}>Shopping List</Animatable.Text>
                         <Animatable.View style={{ borderBottomWidth: 3, position: "absolute", height: "100%", width: "49%", left: "0.5%" }}></Animatable.View>
                     </View>
                 </View>

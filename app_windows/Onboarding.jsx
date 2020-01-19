@@ -7,6 +7,8 @@ import { Text, CheckBox, Image, Button } from 'react-native-elements';
 import MongoDB from "../app_modules/MongoDB"
 import Recipes from "./Recipes";
 import DashBoard from './DashBoard';
+import Groceries from './Groceries';
+
 
 class fitnessButton extends Component {
      render() {
@@ -25,20 +27,20 @@ class FirstOnboarding extends Component {
           if (!MongoDB.isLoggedIn()) return null;
           return (
                <View style={styles.container}>
-                    <Text style={styles.heading}>WELCOME</Text>
-                    <Text style={styles.subtext}>short introduction</Text>
+                    <Text style={styles.heading}>Let's get cooking.</Text>
                     <Image
                          source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg' }}
                          style={styles.image}
                     />
-                    <Text style={styles.subtext}>better introduction</Text>
+                    <Text style={styles.subtext}>We just have a few quick questions to tailor your experience.</Text>
                     <Button
                          icon={{
                               // name: "arrow-right",
                               size: 15,
                               color: "white"
                          }}
-                         title="Next"
+                         buttonStyle={styles.nextButton}
+                         title="Start"
                          onPress={() => this.props.navigation.navigate('FitnessGoals', {
                               mongodb: MongoDB
                          })}
@@ -197,14 +199,17 @@ class CuisinePreferences extends Component {
      render() {
           return (
                <View style={styles.container}>
-                    <Text h4 style={styles.heading}>Cuisine Preferences!</Text>
-                    <Text style={styles.subtext}>short introduction</Text>
+                    <Text style={styles.heading}>Preferences</Text>
+                    <Text style={styles.subtext}>What kind of food do you like?</Text>
                     <View>
                          <CheckBox
                               center
                               title='Asian'
-                              checkedColor='green'
+                              containerStyle={styles.fitnessContainer}
+                              textStyle={styles.fitnessText}
                               checked={this.state.asianState}
+                              checkedColor='#FFF'
+                              uncheckedColor="#FFF"
                               onPress={() => {
                                    this.setState({ asianState: !this.state.asianState });
                                    if (!this.state.asianState) {
@@ -219,8 +224,11 @@ class CuisinePreferences extends Component {
                          <CheckBox
                               center
                               title='American'
-                              checkedColor='green'
+                              containerStyle={styles.fitnessContainer}
+                              textStyle={styles.fitnessText}
                               checked={this.state.americanState}
+                              checkedColor='#FFF'
+                              uncheckedColor="#FFF"
                               onPress={() => {
                                    this.setState({ americanState: !this.state.americanState });
                                    if (!this.state.americanState) {
@@ -233,8 +241,11 @@ class CuisinePreferences extends Component {
                          <CheckBox
                               center
                               title='Southern'
-                              checkedColor='green'
+                              containerStyle={styles.fitnessContainer}
+                              textStyle={styles.fitnessText}
                               checked={this.state.southernState}
+                              checkedColor='#FFF'
+                              uncheckedColor="#FFF"
                               onPress={() => {
                                    this.setState({ southernState: !this.state.southernState });
                                    if (!this.state.southernState) {
@@ -247,8 +258,11 @@ class CuisinePreferences extends Component {
                          <CheckBox
                               center
                               title='Hispanic'
-                              checkedColor='green'
+                              containerStyle={styles.fitnessContainer}
+                              textStyle={styles.fitnessText}
                               checked={this.state.hispanicState}
+                              checkedColor='#FFF'
+                              uncheckedColor="#FFF"
                               onPress={() => {
                                    this.setState({ hispanicState: !this.state.hispanicState });
                                    if (!this.state.hispanicState) {
@@ -261,8 +275,11 @@ class CuisinePreferences extends Component {
                          <CheckBox
                               center
                               title='Mediterranean'
-                              checkedColor='green'
+                              containerStyle={styles.fitnessContainer}
+                              textStyle={styles.fitnessText}
                               checked={this.state.mediterraneanState}
+                              checkedColor='#FFF'
+                              uncheckedColor="#FFF"
                               onPress={() => {
                                    this.setState({
                                         mediterraneanState: !this.state.mediterraneanState
@@ -281,7 +298,8 @@ class CuisinePreferences extends Component {
                               size: 15,
                               color: "white"
                          }}
-                         title="Submit"
+                         title="Next"
+                         buttonStyle={styles.nextButton}
                          onPress={() => this.props.navigation.navigate('LastOnboarding', {
                               mongodb: this.props.navigation.getParam('mongodb', null),
                               calorieGoal: this.props.navigation.getParam('calorieGoal', null)
@@ -301,19 +319,20 @@ class LastOnboarding extends Component {
      render() {
           return (
                <View style={styles.container}>
-                    <Text style={styles.heading}>You're All Set!</Text>
-                    <Text style={styles.subtext}>short introduction</Text>
+                    <Text style={styles.heading}>Ready to get started?</Text>
                     <Image
                          source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg' }}
                          style={styles.image}
                     />
+                    <Text style={styles.subtext}>Your custom made meal plan is just one step away.</Text>
                     <Button
                          icon={{
                               // name: "arrow-right",
                               size: 15,
                               color: "white"
                          }}
-                         title="Click here to get started!"
+                         buttonStyle={styles.nextButton}
+                         title="Let's go!"
                          onPress={() => this.props.navigation.navigate('Dash', {
                               mongodb: this.props.navigation.getParam('mongodb', null),
                               calorieGoal: this.props.navigation.getParam('calorieGoal', 0)
@@ -330,6 +349,7 @@ const OnboardingStack = createStackNavigator({
      CuisinePreferences: CuisinePreferences,
      LastOnboarding: LastOnboarding,
      Recipes: Recipes,
+     Groceries: Groceries,
      Dash: DashBoard
 }, {
      initialRouteName: 'init',

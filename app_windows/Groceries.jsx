@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, Dimensions, Text, View, Image } from "react-native";
-import { Button, ThemeProvider, CheckBox} from "react-native-elements";
+import { Button, ThemeProvider, CheckBox } from "react-native-elements";
 import { registerRootComponent } from "expo";
 import MongoDB from "../app_modules/MongoDB";
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-import { createMaterialTopTabNavigator } from 'react-navigation-tabs'
-import Recipe from "./Recipe";
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { ScrollView } from 'react-native-gesture-handler';
 
 var chosen_recipes = [{
     "title": "Beef Stroganoff III",
@@ -60,18 +58,18 @@ var chosen_recipes = [{
 }];
 var groceries = {};
 
-function getGroceries(){
-    for (var i in chosen_recipes){
-        Object.keys(chosen_recipes[i].ingredients).forEach(function(ikey){
-            Object.keys(groceries).forEach(function(gkey){
+function getGroceries() {
+    for (var i in chosen_recipes) {
+        Object.keys(chosen_recipes[i].ingredients).forEach(function (ikey) {
+            Object.keys(groceries).forEach(function (gkey) {
                 //if keys match
-                if (gkey == ikey){
+                if (gkey == ikey) {
                     var measured = chosen_recipes[i].ingredients[ikey].split();
                     measured[0] = parseInt(measured[0]);
                     var g_measured = groceries[gkey].split;
-                    g_measured[0] =  parseInt(g_measured[0]);
+                    g_measured[0] = parseInt(g_measured[0]);
                     //check measurement
-                    if(measured[1] == g_measured[1]){
+                    if (measured[1] == g_measured[1]) {
                         //add numbers and save into groceries
                         groceries[ikey] = g_measured[0] + measured[0] + " " + g_measured[1];
                         return;
@@ -92,15 +90,13 @@ class GroceryItem extends Component {
         };
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <CheckBox
-                title = {this.props.name}
-                style = {styles.grocery}
-                checked= {this.state.checked}
-                checkedIcon='dot-circle-o'
-                uncheckedIcon='circle-o'
-                onPress={() => this.setState({checked: !this.state.checked})}
+                title={this.props.name}
+                style={styles.grocery}
+                checked={this.state.checked}
+                onPress={() => this.setState({ checked: !this.state.checked })}
             />
         );
     }
@@ -117,22 +113,25 @@ class Groceries extends React.Component {
         MongoDB.loadClient().then(() => this.setState({ loggedIn: true }))
     }
 
-    createGroceryList(){
+    createGroceryList() {
         getGroceries();
-        console.log(JSON.stringify(groceries));
         let list = [];
-        Object.keys(groceries).forEach(function(key){
-            list.push(<GroceryItem style={styles.list} name={groceries[key] + " " + key} key={key}/>);
+        Object.keys(groceries).forEach(function (key) {
+            list.push(<GroceryItem style={styles.list} name={groceries[key] + " " + key} key={key} />);
         });
         return list;
     }
 
     render() {
         return (
-            <View style={styles.container}>
-                <Text style={styles.title}>Grocery List</Text>
-                {this.createGroceryList()}
-            </View>
+            <SafeAreaView>
+                <ScrollView>
+                    <View style={styles.container}>
+                        <Text style={styles.title}>Grocery List</Text>
+                        {this.createGroceryList()}
+                    </View>
+                </ScrollView>
+            </SafeAreaView>
         );
     }
 }
@@ -163,38 +162,4 @@ const styles = StyleSheet.create({
     },
 });
 
-/*const TabNavigator = createMaterialTopTabNavigator({
-    Home: MealPlan,
-    Settings: Groceries,
-  },
-    {
-    backBehavior: "order",
-    swipeEnabled: 'false',
-    scrollEnabled: 'false',
-    defaultNavigationOptions: ({ navigation }) => ({
-        tabBarOptions: {
-        indicatorStyle: {
-            backgroundColor: '#94618E'
-        },
-        activeTintColor: '#94618E',
-        inactiveTintColor: 'gray',
-        style: {
-            paddingTop: 24,
-            backgroundColor: 'white',
-            color: 'black'
-        },
-        },
-    })
-});
-
-const App = createAppContainer(TabNavigator);*/
-const MainNavigator = createStackNavigator({
-    Home: Groceries,
-    Recipe: Recipe
-}, {
-    initialRouteName: 'Home',
-    defaultNavigationOptions: { headerShown: false }
-});
-
-const App = createAppContainer(MainNavigator);
-export default registerRootComponent(App);
+export default Groceries;
