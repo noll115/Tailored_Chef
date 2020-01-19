@@ -12,7 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 let data = {
 
 
-    "Sunday, January 20th": {
+    "Monday, January 20th": {
         Breakfast: {
             general: "Chicken, noodle, and kale salad with an olive vinaigrette. Serves 1.",
             image: "https://whiskeynwry.files.wordpress.com/2015/07/img_0380.jpg",
@@ -30,7 +30,7 @@ let data = {
         }
 
     },
-    "Monday, January 21st": {
+    "Tuesday, January 21st": {
         Breakfast: {
             general: "Chicken, noodle, and kale salad with an olive vinaigrette. Serves 1.",
             image: "https://whiskeynwry.files.wordpress.com/2015/07/img_0380.jpg",
@@ -47,7 +47,7 @@ let data = {
             total_time: "1 hour 20 mins"
         }
     },
-    "Tuesday, January 22nd": {
+    "Wednesday, January 22nd": {
         Breakfast: {
             general: "Chicken, noodle, and kale salad with an olive vinaigrette. Serves 1.",
             image: "https://whiskeynwry.files.wordpress.com/2015/07/img_0380.jpg",
