@@ -24,7 +24,12 @@ class FirstOnboarding extends Component {
           isloggedIn: false
      }
      render() {
-          if (!MongoDB.isLoggedIn()) return null;
+          if (!MongoDB.isLoggedIn()) {
+               return (
+                    <View style={{ width: "100%", height: "100%", alignItems: "center" }}>
+                         <Text style={{ fontWeight: "bold", height: "100%", textAlignVertical: "center" }}>Unable To Log Into MongoDB</Text>
+                    </View>);
+          }
           return (
                <View style={styles.container}>
                     <Text style={styles.heading}>Let's get cooking.</Text>
@@ -319,7 +324,7 @@ class LastOnboarding extends Component {
      render() {
           return (
                <View style={styles.container}>
-                    <Text h1 style={{ alignSelf: "center", textAlign: "center", marginTop: 60}}>Ready to get started?</Text>
+                    <Text h1 style={{ alignSelf: "center", textAlign: "center", marginTop: 60 }}>Ready to get started?</Text>
                     <Image
                          source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg' }}
                          style={styles.image}

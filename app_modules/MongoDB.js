@@ -19,7 +19,7 @@ let connectToCollection = client => {
         RemoteMongoClient.factory,
         "mongodb-atlas"
     );
-    db = mongoClient.db("CruzHacks")
+    db = mongoClient.db("CruzHacks");
     recipes = db.collection("recipes");
 }
 
@@ -30,6 +30,9 @@ let loadClient = () => {
                 appClient = client;
                 if (client.auth.isLoggedIn) {
                     currUserID = client.auth.user.id;
+                }
+                else{
+                    return loginUser();
                 }
                 connectToCollection(client);
                 return client;
