@@ -11,6 +11,7 @@ import Groceries from './Groceries';
 import * as Font from 'expo-font';
 import Logo from "../assets/images/chef.svg"
 import { CardStyleInterpolators } from 'react-navigation-stack';
+import { Animated } from 'react-native';
 
 
 
@@ -21,6 +22,7 @@ class FirstOnboarding extends Component {
           fontloaded: false
      }
      render() {
+
           { if (!this.state.fontloaded) return null }
           if (!MongoDB.isLoggedIn()) {
                return (
@@ -56,7 +58,8 @@ class FirstOnboarding extends Component {
           await Font.loadAsync({
                'Quicksand': require("../assets/fonts/Quicksand-Regular.ttf"),
                'Open Sans': require("../assets/fonts/OpenSans-Regular.ttf"),
-          })
+          });
+
           await MongoDB.loadClient();
           this.setState({ fontloaded: true, isLoggedIn: true })
      }
@@ -389,11 +392,24 @@ class LastOnboarding extends Component {
      }
 }
 
-const SlideIn = ({ current, closing }) => ({
-     cardStyle: {
-          transform: [{ translateX: current.progress }]
+const SlideIn = ({ current, next, index, layouts }) => {
+     const { screen } = layouts;
+     console.log(index);
+
+     const translateX = Animated.add(
+          current.progress,
+          next ? next.progress : 0
+     ).interpolate({
+          inputRange: [0, 1, 2],
+          outputRange: [screen.width, 0, -screen.width]
+     });
+
+     return {
+          cardStyle: {
+               transform: [{ translateX }]
+          }
      }
-})
+}
 
 const OnboardingStack = createStackNavigator({
      init: FirstOnboarding,
@@ -407,6 +423,7 @@ const OnboardingStack = createStackNavigator({
      initialRouteName: 'init',
      defaultNavigationOptions: {
           headerShown: false,
+          cardStyleInterpolator: SlideIn
      },
 });
 
