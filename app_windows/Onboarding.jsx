@@ -1,29 +1,27 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
+import { createStackNavigator } from 'react-navigation-stack'
 import { registerRootComponent } from 'expo';
 import { Text, CheckBox, Image, Button } from 'react-native-elements';
 import MongoDB from "../app_modules/MongoDB"
 import Recipes from "./Recipes";
 import DashBoard from './DashBoard';
 import Groceries from './Groceries';
+import * as Font from 'expo-font';
+import Logo from "../assets/images/chef.svg"
+import { CardStyleInterpolators } from 'react-navigation-stack';
 
 
-class fitnessButton extends Component {
-     render() {
-          <View styles={styles.fitnessText}>
-               <Text styles={styles.fitnessHeading}>apples</Text>
-               <Text styles={styles.fitnessSubheading}>bananas</Text>
-          </View>
-     }
-}
+
 
 class FirstOnboarding extends Component {
      state = {
-          isloggedIn: false
+          isloggedIn: false,
+          fontloaded: false
      }
      render() {
+          { if (!this.state.fontloaded) return null }
           if (!MongoDB.isLoggedIn()) {
                return (
                     <View style={{ width: "100%", height: "100%", alignItems: "center" }}>
@@ -31,20 +29,21 @@ class FirstOnboarding extends Component {
                     </View>);
           }
           return (
-               <View style={styles.container}>
-                    <Text style={styles.heading}>Let's get cooking.</Text>
-                    <Image
-                         source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Bananavarieties.jpg' }}
-                         style={styles.image}
-                    />
-                    <Text style={{ alignSelf: "center", fontSize: 20, textAlign: "center" }}>We just have a few quick questions to tailor your experience.</Text>
-                    <Button
+               <View styles={styles.parentContainer}>
+                    <View style={styles.container}>
+                         <Text style={styles.header}>Let's get cooking.</Text>
+
+                         <Logo style={styles.img} width={160.6} height={160} />
+                    </View>
+                    <Text style={styles.content}>We just have a few quick questions to tailor your experience.</Text>
+                    <Button raised
                          icon={{
                               // name: "arrow-right",
                               size: 15,
                               color: "white"
                          }}
-                         buttonStyle={styles.nextButton}
+                         buttonStyle={styles.buttonStyle}
+                         containerStyle={styles.buttonContainer}
                          title="Start"
                          onPress={() => this.props.navigation.navigate('FitnessGoals', {
                               mongodb: MongoDB
@@ -53,10 +52,53 @@ class FirstOnboarding extends Component {
                </View>
           )
      }
-     componentDidMount() {
-          MongoDB.loadClient().then(() => this.setState({ isloggedIn: true }));
+     async componentDidMount() {
+          await Font.loadAsync({
+               'Quicksand': require("../assets/fonts/Quicksand-Regular.ttf"),
+               'Open Sans': require("../assets/fonts/OpenSans-Regular.ttf"),
+          })
+          await MongoDB.loadClient();
+          this.setState({ fontloaded: true, isLoggedIn: true })
      }
 }
+
+const styles = StyleSheet.create({
+     parentContainer: {
+          height: "100%",
+     },
+     container: {
+          backgroundColor: "red",
+          width: "100%",
+          paddingHorizontal: "15%",
+          paddingTop: "10%",
+          alignItems: "center"
+     },
+     header: {
+          fontSize: 55,
+          textAlign: "center",
+          fontFamily: 'Quicksand',
+          marginBottom: "10%"
+     },
+     img: {
+          marginBottom: "15%"
+     },
+     buttonStyle: {
+          backgroundColor: "#49274A",
+          borderRadius: 5,
+     },
+     buttonContainer: {
+          width: "60%",
+          marginHorizontal: "20%"
+     },
+     content: {
+
+          fontFamily: "Open Sans",
+          fontSize: 19,
+          textAlign: "center",
+          width: "80%",
+          margin: "10%"
+     }
+})
 
 class FitnessGoals extends Component {
 
@@ -332,7 +374,6 @@ class LastOnboarding extends Component {
                     <Text style={styles.subtext}>Your custom made meal plan is just one step away.</Text>
                     <Button
                          icon={{
-                              // name: "arrow-right",
                               size: 15,
                               color: "white"
                          }}
@@ -348,6 +389,12 @@ class LastOnboarding extends Component {
      }
 }
 
+const SlideIn = ({ current, closing }) => ({
+     cardStyle: {
+          transform: [{ translateX: current.progress }]
+     }
+})
+
 const OnboardingStack = createStackNavigator({
      init: FirstOnboarding,
      FitnessGoals: FitnessGoals,
@@ -358,49 +405,52 @@ const OnboardingStack = createStackNavigator({
      Dash: DashBoard
 }, {
      initialRouteName: 'init',
-     defaultNavigationOptions: { headerShown: false }
+     defaultNavigationOptions: {
+          headerShown: false,
+     },
 });
 
-const styles = StyleSheet.create({
-     container: {
-          display: 'flex',
-          flexDirection: 'column',
-          flex: 1,
-          backgroundColor: '#F8EEE7',
-          alignItems: 'center',
-     },
-     fitnessContainer: {
-          backgroundColor: '#94618E',
-     },
-     fitnessText: {
-          color: '#FFFFFF'
-     },
-     heading: {
-          fontSize: 45,
-          marginTop: 50
-     },
-     subtext: {
-          marginBottom: 28,
-          fontSize: 16
-     },
-     nextButton: {
-          marginTop: 25,
-          marginBottom: 42,
-          width: 160,
-          backgroundColor: '#94618E'
-     },
-     image: {
-          width: 200,
-          height: 200
-     },
-     menuImages: {
-          width: 150,
-          height: 150,
-     },
-     menuImagesSelected: {
-          borderWidth: 5
-     }
-});
+
+// const styles = StyleSheet.create({
+//      container: {
+//           display: 'flex',
+//           flexDirection: 'column',
+//           flex: 1,
+//           backgroundColor: '#F8EEE7',
+//           alignItems: 'center',
+//      },
+//      fitnessContainer: {
+//           backgroundColor: '#94618E',
+//      },
+//      fitnessText: {
+//           color: '#FFFFFF'
+//      },
+//      heading: {
+//           fontSize: 45,
+//           marginTop: 50
+//      },
+//      subtext: {
+//           marginBottom: 28,
+//           fontSize: 16
+//      },
+//      nextButton: {
+//           marginTop: 25,
+//           marginBottom: 42,
+//           width: 160,
+//           backgroundColor: '#94618E'
+//      },
+//      image: {
+//           width: 200,
+//           height: 200
+//      },
+//      menuImages: {
+//           width: 150,
+//           height: 150,
+//      },
+//      menuImagesSelected: {
+//           borderWidth: 5
+//      }
+// });
 
 const AppContainer = createAppContainer(OnboardingStack);
 export default registerRootComponent(AppContainer)
