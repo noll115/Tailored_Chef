@@ -86,7 +86,7 @@ export class InitScreen extends Component {
           return (
                <View style={{ flex: 1, backgroundColor: "red" }}>
                     <InitNav  onNavigationStateChange={this.onNavChange} />
-                    <View style={{ flex: 0.13, justifyContent: "center" }}>
+                    <View style={{ flex: 0.09, justifyContent: "center" }}>
                          <IndicatorDots stackIndex={this.state.index} />
                     </View>
                </View>
