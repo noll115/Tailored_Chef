@@ -8,11 +8,10 @@ import MongoDB from "../../app_modules/MongoDB"
 class StartScreen extends Component {
     constructor(props) {
         super(props);
-        this.navigation = props.navigation;
     }
 
     NextScreen = () =>{
-        this.navigation.push("FitnessGoals")
+        this.props.navigation.push("FitnessGoals")
     }
 
 
